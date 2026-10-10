@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero text-white">
+  <div class="container py-5">
+    <h1 class="display-5 fw-bold">Welcome to {{ SCHOOL_NAME }}</h1>
+    <p class="lead col-lg-7">Nursery to Grade 12. Caring teachers, clear goals, and a school that knows every child by name.</p>
+    <a class="btn btn-light btn-lg me-2" href="{% url 'website:page' 'admissions' %}">Admissions</a>
+    <a class="btn btn-outline-light btn-lg" href="{% url 'website:contact' %}">Contact us</a>
+  </div>
+</section>
+<section class="container py-5">
+  <div class="row g-4">
+    {% for title, text in highlights %}
+    <div class="col-md-6 col-lg-3"><div class="card h-100"><div class="card-body"><h2 class="h5">{{ title }}</h2><p class="mb-0">{{ text }}</p></div></div></div>
+    {% endfor %}
+  </div>
+</section>
+<section class="container">
+  <h2 class="h3 mb-3">News and announcements</h2>
+  <div class="list-group">
+    {% for title, text in news %}<div class="list-group-item"><strong>{{ title }}</strong><br>{{ text }}</div>{% endfor %}
+  </div>
+</section>
+{% endblock %}

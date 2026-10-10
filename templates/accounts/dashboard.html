@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h1 class="h3">Welcome, {{ user.first_name }}</h1>
+  <p class="text-muted">{{ role_label }}</p>
+  <div class="card mb-3"><div class="card-body">
+    <h2 class="h5">Your role</h2>
+    <p>{{ role_summary }}</p>
+    <h3 class="h6">Your permissions</h3>
+    {% if capabilities %}<ul>{% for c in capabilities %}<li><code>{{ c }}</code></li>{% endfor %}</ul>{% else %}<p class="mb-0">Self-service access only.</p>{% endif %}
+  </div></div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ SCHOOL_NAME }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ SCHOOL_NAME }}: Nursery to Grade 12 with caring teachers and strong results.{% endblock %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'css/site.css' %}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<a class="visually-hidden-focusable" href="#main">Skip to main content</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" aria-label="Main navigation">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'website:home' %}">{{ SCHOOL_NAME }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{% url 'website:page' 'about' %}">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'website:page' 'academics' %}">Academics</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'website:page' 'admissions' %}">Admissions</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'website:page' 'facilities' %}">Facilities</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'website:page' 'faq' %}">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'website:contact' %}">Contact</a></li>
+      </ul>
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+          {% for label, name in role_nav %}<li class="nav-item"><a class="nav-link" href="{% url name %}">{{ label }}</a></li>{% endfor %}
+          <li class="nav-item"><form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="btn btn-link nav-link" type="submit">Sign out</button></form></li>
+        {% else %}
+          <li class="nav-item"><a class="btn btn-light btn-sm" href="{% url 'accounts:login' %}">Portal login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<main id="main" class="flex-grow-1">
+  <div class="container mt-3">
+    {% for m in messages %}<div class="alert alert-{% if m.tags == 'error' %}danger{% else %}{{ m.tags|default:'info' }}{% endif %}" role="alert">{{ m }}</div>{% endfor %}
+  </div>
+  {% block content %}{% endblock %}
+</main>
+<footer class="bg-dark text-light py-4 mt-5">
+  <div class="container d-flex flex-wrap justify-content-between gap-2">
+    <span>&copy; {% now "Y" %} {{ SCHOOL_NAME }}</span>
+    <span><a class="link-light" href="{% url 'website:page' 'privacy' %}">Privacy</a> &middot; <a class="link-light" href="{% url 'website:page' 'terms' %}">Terms</a></span>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

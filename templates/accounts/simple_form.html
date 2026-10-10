@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4 narrow-sm">
+  <h1 class="h3 mb-3">{{ title }}</h1>
+  {% if form %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button class="btn btn-primary mt-3" type="submit">Submit</button>
+  </form>
+  {% else %}
+  <div class="alert alert-warning">This link is invalid or has expired. <a href="{% url 'accounts:password_reset' %}">Request a new one</a>.</div>
+  {% endif %}
+</div>
+{% endblock %}

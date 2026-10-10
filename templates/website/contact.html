@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Contact | {{ SCHOOL_NAME }}{% endblock %}
+{% block description %}Contact {{ SCHOOL_NAME }} for admissions and general enquiries.{% endblock %}
+{% block content %}
+<div class="container py-4 narrow">
+  <h1>Contact us</h1>
+  <p>Send an enquiry and our office will reply by email.</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for field in form.visible_fields %}
+      <div class="mb-3{% if field.name == 'website' %} hp-wrap{% endif %}" {% if field.name == 'website' %}aria-hidden="true"{% endif %}>
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for e in field.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">Send enquiry</button>
+  </form>
+  <hr class="my-4">
+  <p class="text-muted">Map and address: configure your school's location here (set a Google Maps embed URL in a later phase).</p>
+</div>
+{% endblock %}

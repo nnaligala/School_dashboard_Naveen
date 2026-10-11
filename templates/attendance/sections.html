@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Attendance | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h1 class="h3">Attendance</h1>
+  <ul class="list-group">
+    {% for s in sections %}
+    <li class="list-group-item d-flex justify-content-between">
+      <span>{{ s.school_class.name }} {{ s.name }} <small class="text-muted">{{ s.academic_year }}</small></span>
+      <span><a href="{% url 'attendance:mark' s.public_id %}">Mark</a> &middot; <a href="{% url 'attendance:report' s.public_id %}">Monthly report</a></span>
+    </li>
+    {% empty %}<li class="list-group-item">No sections assigned to you.</li>{% endfor %}
+  </ul>
+</div>
+{% endblock %}

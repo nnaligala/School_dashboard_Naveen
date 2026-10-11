@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Users | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h1 class="h3">Users</h1>
+  <div class="table-responsive"><table class="table table-sm">
+    <thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Active</th></tr></thead>
+    <tbody>{% for u in users %}<tr><td><a href="{% url 'accounts:user_detail' u.public_id %}">{{ u.email }}</a></td><td>{{ u.full_name }}</td><td>{{ u.get_role_display }}</td><td>{{ u.is_active|yesno:"Yes,No" }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+{% endblock %}

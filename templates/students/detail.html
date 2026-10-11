@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ student.full_name }} | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4 narrow">
+  <h1 class="h3">{{ student.full_name }}</h1>
+  <dl class="row">
+    <dt class="col-sm-4">Admission number</dt><dd class="col-sm-8">{{ student.admission_number }}</dd>
+    <dt class="col-sm-4">Class</dt><dd class="col-sm-8">{% if student.section %}{{ student.section.school_class.name }} {{ student.section.name }}{% else %}-{% endif %}</dd>
+    <dt class="col-sm-4">Date of birth</dt><dd class="col-sm-8">{{ student.date_of_birth }}</dd>
+    <dt class="col-sm-4">Status</dt><dd class="col-sm-8">{{ student.get_status_display }}</dd>
+    {% if can_view_medical %}<dt class="col-sm-4">Medical notes</dt><dd class="col-sm-8">{{ student.medical_notes|default:"None recorded" }}</dd>{% endif %}
+  </dl>
+  <h2 class="h5">Guardians</h2>
+  <ul>{% for g in guardians %}<li>{{ g.user.full_name }} ({{ g.get_relationship_display }})</li>{% empty %}<li>None linked.</li>{% endfor %}</ul>
+  <h2 class="h5">Recent attendance</h2>
+  <ul>{% for r in recent_attendance %}<li>{{ r.date }}: {{ r.get_status_display }}{% if r.reason %} ({{ r.reason }}){% endif %}</li>{% empty %}<li>No records yet.</li>{% endfor %}</ul>
+</div>
+{% endblock %}

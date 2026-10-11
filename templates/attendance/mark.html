@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Mark attendance | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h1 class="h3">{{ section.school_class.name }} {{ section.name }}: attendance for {{ day }}</h1>
+  <form method="get" class="mb-3"><label for="date" class="form-label">Date</label>
+    <input type="date" class="form-control w-auto d-inline" id="date" name="date" value="{{ day|date:'Y-m-d' }}">
+    <button class="btn btn-outline-secondary btn-sm" type="submit">Go</button></form>
+  <form method="post">{% csrf_token %}
+    <input type="hidden" name="date" value="{{ day|date:'Y-m-d' }}">
+    <div class="table-responsive"><table class="table table-sm align-middle">
+      <thead><tr><th>Student</th><th>Status</th><th>Reason (if absent/late)</th></tr></thead>
+      <tbody>
+      {% for s, rec in rows %}
+        <tr>
+          <td>{{ s.full_name }}</td>
+          <td><fieldset><legend class="visually-hidden">Status for {{ s.full_name }}</legend>
+            {% for value, label in statuses %}
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="status_{{ s.public_id }}" id="st_{{ s.public_id }}_{{ value }}" value="{{ value }}"
+                  {% if rec.status == value %}checked{% elif not rec and value == 'present' %}checked{% endif %}>
+                <label class="form-check-label" for="st_{{ s.public_id }}_{{ value }}">{{ label }}</label>
+              </div>
+            {% endfor %}</fieldset></td>
+          <td><input class="form-control form-control-sm" name="reason_{{ s.public_id }}" maxlength="200" value="{{ rec.reason }}" aria-label="Reason for {{ s.full_name }}"></td>
+        </tr>
+      {% empty %}<tr><td colspan="3">No active students in this section.</td></tr>{% endfor %}
+      </tbody>
+    </table></div>
+    <button class="btn btn-primary" type="submit">Save attendance</button>
+  </form>
+</div>
+{% endblock %}

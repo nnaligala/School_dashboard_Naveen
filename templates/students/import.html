@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Import students | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4 narrow">
+  <h1 class="h3">Import students (CSV)</h1>
+  <p>Columns: <code>first_name, last_name, date_of_birth (YYYY-MM-DD), gender (M/F/O), class, section</code>.
+  Class and section must exist for the current academic year. The import is all-or-nothing (max 500 rows).</p>
+  {% if errors %}<div class="alert alert-danger"><ul class="mb-0">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_div }}<button class="btn btn-primary mt-3" type="submit">Import</button></form>
+</div>
+{% endblock %}

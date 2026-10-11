@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Attendance report | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h1 class="h3">{{ section.school_class.name }} {{ section.name }}: {{ year }}-{{ month|stringformat:"02d" }}</h1>
+  <div class="table-responsive"><table class="table table-sm">
+    <thead><tr><th>Student</th><th>Present</th><th>Absent</th><th>Late</th><th>Excused</th></tr></thead>
+    <tbody>{% for s in rows %}<tr><td>{{ s.full_name }}</td><td>{{ s.present }}</td><td>{{ s.absent }}</td><td>{{ s.late }}</td><td>{{ s.excused }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+{% endblock %}

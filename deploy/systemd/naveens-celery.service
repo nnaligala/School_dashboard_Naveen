@@ -1,0 +1,18 @@
+# Save as /etc/systemd/system/naveens-celery.service
+[Unit]
+Description=Naveen's School Celery worker
+After=network-online.target
+
+[Service]
+User=naveens
+Group=naveens
+WorkingDirectory=/opt/naveens-school
+EnvironmentFile=/etc/naveens-school.env
+ExecStart=/opt/naveens-school/.venv/bin/celery -A config worker -l info -Q default,email,sms,reports,imports --concurrency 4
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

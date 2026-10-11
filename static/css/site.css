@@ -1,0 +1,4 @@
+.hero { background: linear-gradient(135deg, #0d3b66, #1d6fa5); }
+.narrow { max-width: 50rem; }
+.narrow-sm { max-width: 28rem; }
+.hp-wrap, .hp-field { position: absolute; left: -9999px; height: 0; overflow: hidden; }

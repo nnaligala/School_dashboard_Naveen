@@ -1,0 +1,16 @@
+# Save as /etc/systemd/system/naveens-celerybeat.service  (run on exactly ONE server)
+[Unit]
+Description=Naveen's School Celery Beat
+After=network-online.target
+
+[Service]
+User=naveens
+Group=naveens
+WorkingDirectory=/opt/naveens-school
+EnvironmentFile=/etc/naveens-school.env
+ExecStart=/opt/naveens-school/.venv/bin/celery -A config beat -l info --schedule /var/lib/naveens/celerybeat-schedule
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ subject.full_name }} | {{ SCHOOL_NAME }}{% endblock %}
+{% block content %}
+<div class="container py-4 narrow">
+  <h1 class="h3">{{ subject.full_name }}</h1>
+  <dl class="row">
+    <dt class="col-sm-3">Email</dt><dd class="col-sm-9">{{ subject.email }}</dd>
+    <dt class="col-sm-3">Role</dt><dd class="col-sm-9">{{ subject.get_role_display }}</dd>
+    <dt class="col-sm-3">Phone</dt><dd class="col-sm-9">{{ subject.phone|default:"-" }}</dd>
+  </dl>
+  <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-primary">Change password</a>
+</div>
+{% endblock %}
